@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INCIT Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background-color: #333;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .body {
+            padding: 20px;
+            color: #333;
+        }
+        .body p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .details {
+            margin: 20px 0;
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-left: 5px solid #333;
+        }
+        .details h3 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 5px;
+        }
+        .accept {
+            background-color: #333;
+            color: white !important;
+            text-decoration: none;
+        }
+        .footer {
+            background-color: #333;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>INCIT TEST (fiqriardiansyah)</h1>
+        </div>
+
+        <div class="body">
+            <p>Verifiy your INCIT Account</p>
+
+            <div class="details">
+                <h3>Hi {{toName}}, Thank you for signing up to Incit. You are one step away from applying for your dream job!</h3>
+            </div>
+
+            <a href="{{verifyLink}}" class="button accept">Verify Your Account</a>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 INCIT. All Rights Reserved.</p>
+            <a href="{{appLink}}">Home</a> |
+        </div>
+    </div>
+
+</body>
+</html>
