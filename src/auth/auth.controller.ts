@@ -25,7 +25,7 @@ export class AuthController {
             httpOnly: false,
             secure: false,
             sameSite: "lax",
-            domain: process.env.NODE_ENV === "development" ? "localhost" : "",
+            domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
             path: "/",
         });
 
@@ -48,7 +48,7 @@ export class AuthController {
                 httpOnly: false,
                 secure: false,
                 sameSite: "lax",
-                domain: process.env.NODE_ENV === "development" ? "localhost" : "",
+                domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
                 path: "/",
             });
 
