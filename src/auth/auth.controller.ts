@@ -23,9 +23,9 @@ export class AuthController {
         const result = await this.authService.oAuthSign({ auth: req.user, provider: "google" });
         res.cookie('token', result.accesstoken, {
             httpOnly: false,
-            secure: false,
-            sameSite: "lax",
-            domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
+            // domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
             path: "/",
         });
 
@@ -46,9 +46,9 @@ export class AuthController {
 
             res.cookie('token', result.accesstoken, {
                 httpOnly: false,
-                secure: false,
-                sameSite: "lax",
-                domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
+                // domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
                 path: "/",
             });
 
