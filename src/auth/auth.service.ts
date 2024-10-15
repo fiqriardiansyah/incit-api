@@ -21,9 +21,9 @@ export class AuthService {
                 SELECT * FROM public."user" u WHERE u."email" = '${args.auth.email}'
             `)) as User[]
 
-            let userId = getUser?.length ? getUser[0].id : null;
+            let userId = getUser.length ? getUser[0]?.id : null;
 
-            if (!getUser.length) {
+            if (!getUser) {
 
                 const create = await this.prismaService.user.create({
                     data: {
@@ -40,7 +40,7 @@ export class AuthService {
                 const updateCount = await this.prismaService.user.update({
                     where: { id: userId },
                     data: {
-                        countlogin: getUser[0].countlogin + 1,
+                        countlogin: getUser[0]?.countlogin + 1,
                     }
                 });
             }
@@ -65,7 +65,7 @@ export class AuthService {
         try {
             const user = await this.prismaService.$queryRaw(Prisma.raw(`
                 SELECT * FROM public.user u where u."email" = '${data.email}'
-            `)) as User[];
+            `)) as User[]
 
             if (!user[0]) {
                 throw new HttpException("Email or password is wrong", HttpStatus.BAD_REQUEST);
@@ -75,14 +75,14 @@ export class AuthService {
                 throw new HttpException("Password has not been set yet", HttpStatus.NOT_FOUND);
             }
 
-            const matchPass = await bcrypt.compare(data.password, user[0].password);
+            const matchPass = await bcrypt.compare(data.password, user[0]?.password);
 
             if (!matchPass) {
                 throw new HttpException("Email or password is wrong", HttpStatus.BAD_REQUEST);
             }
 
             await this.prismaService.user.update({
-                where: { id: user[0].id },
+                where: { id: user[0]?.id },
                 data: {
                     countlogin: user[0].countlogin + 1,
                 }
@@ -92,17 +92,17 @@ export class AuthService {
                 data: {
                     provider: "email",
                     accesstoken: generateRandomId(),
-                    userid: user[0].id,
+                    userid: user[0]?.id,
                 }
             });
 
             return {
-                email: user[0].email,
-                picture: user[0].picture,
-                firstname: user[0].firstname,
-                lastname: user[0].lastname,
+                email: user[0]?.email,
+                picture: user[0]?.picture,
+                firstname: user[0]?.firstname,
+                lastname: user[0]?.lastname,
                 accesstoken: createSession.accesstoken,
-                verified: user[0].verified,
+                verified: user[0]?.verified,
             }
 
         } catch (e: any) {
