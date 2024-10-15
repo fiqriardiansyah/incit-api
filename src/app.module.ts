@@ -6,7 +6,6 @@ import { AuthController } from './auth/auth.controller';
 import { UserModule } from './user/user.module';
 import { UserController } from './user/user.controller';
 import { MailerModule } from './mailer/mailer.module';
-import { MailerController } from './mailer/mailer.controller';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DashboardController } from './dashboard/dashboard.controller';
 
@@ -28,6 +27,6 @@ export class AppModule implements NestModule {
         { method: RequestMethod.POST, path: 'auth/signup' },
         { method: RequestMethod.GET, path: 'auth/verification' },
       )
-      .forRoutes(AuthController, UserController, MailerController, DashboardController)
+      .forRoutes(AuthController, UserController, DashboardController)
   }
 }
