@@ -22,17 +22,15 @@ export class AuthController {
     async googleAuthRedirect(@Req() req, @Res() res: Response) {
         const result = await this.authService.oAuthSign({ auth: req.user, provider: "google" });
 
-        console.log(result.accesstoken);
+        // res.cookie('token', result.accesstoken, {
+        //     httpOnly: false,
+        //     secure: process.env.NODE_ENV === "production",
+        //     sameSite: "none",
+        //     domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
+        //     path: "/",
+        // });
 
-        res.cookie('token', result.accesstoken, {
-            httpOnly: false,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-            domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
-            path: "/",
-        });
-
-        return res.redirect(process.env.FE_URL + "/dashboard");
+        return res.redirect(process.env.FE_URL + `/dashboard?token=${result.accesstoken}`);
     }
 
     @Get('facebook')
@@ -50,7 +48,7 @@ export class AuthController {
             res.cookie('token', result.accesstoken, {
                 httpOnly: false,
                 secure: process.env.NODE_ENV === "production",
-                sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
+                sameSite: "none",
                 domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
                 path: "/",
             });
