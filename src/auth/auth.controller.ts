@@ -20,17 +20,13 @@ export class AuthController {
     @Get('google/callback')
     @UseGuards(AuthGuard('google'))
     async googleAuthRedirect(@Req() req, @Res() res: Response) {
-        const result = await this.authService.oAuthSign({ auth: req.user, provider: "google" });
+        try {
+            const result = await this.authService.oAuthSign({ auth: req.user, provider: "google" });
 
-        // res.cookie('token', result.accesstoken, {
-        //     httpOnly: false,
-        //     secure: process.env.NODE_ENV === "production",
-        //     sameSite: "none",
-        //     domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
-        //     path: "/",
-        // });
-
-        return res.redirect(process.env.FE_URL + `/dashboard?token=${result.accesstoken}`);
+            return res.redirect(process.env.FE_URL + `/set-cookie?token=${result.accesstoken}`);
+        } catch (e: any) {
+            return res.redirect(process.env.FE_URL + `/signin?error=${e?.message}`);
+        }
     }
 
     @Get('facebook')
@@ -45,15 +41,7 @@ export class AuthController {
         try {
             const result = await this.authService.oAuthSign({ auth: req.user, provider: "facebook" });
 
-            res.cookie('token', result.accesstoken, {
-                httpOnly: false,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "none",
-                domain: process.env.NODE_ENV === "development" ? "localhost" : process.env.FE_DOMAIN,
-                path: "/",
-            });
-
-            return res.redirect(process.env.FE_URL + "/dashboard");
+            return res.redirect(process.env.FE_URL + `/set-cookie?token=${result.accesstoken}`);
         } catch (e: any) {
             return res.redirect(process.env.FE_URL + `/signin?error=${e?.message}`);
         }
