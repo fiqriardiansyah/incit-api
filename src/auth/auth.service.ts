@@ -67,6 +67,10 @@ export class AuthService {
                 SELECT * FROM public.user u where u."email" = '${data.email}'
             `))[0] as User);
 
+            if (!user) {
+                throw new HttpException("Email or password is wrong", HttpStatus.NOT_FOUND);
+            }
+
             if (!user?.password) {
                 throw new HttpException("Password has not been set yet", HttpStatus.NOT_FOUND);
             }
