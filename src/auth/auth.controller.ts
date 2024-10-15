@@ -21,6 +21,9 @@ export class AuthController {
     @UseGuards(AuthGuard('google'))
     async googleAuthRedirect(@Req() req, @Res() res: Response) {
         const result = await this.authService.oAuthSign({ auth: req.user, provider: "google" });
+
+        console.log(result.accesstoken);
+
         res.cookie('token', result.accesstoken, {
             httpOnly: false,
             secure: process.env.NODE_ENV === "production",

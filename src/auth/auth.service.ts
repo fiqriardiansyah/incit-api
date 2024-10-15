@@ -81,6 +81,13 @@ export class AuthService {
                 throw new HttpException("Email or password is wrong", HttpStatus.BAD_REQUEST);
             }
 
+            await this.prismaService.user.update({
+                where: { id: user[0].id },
+                data: {
+                    countlogin: user[0].countlogin + 1,
+                }
+            })
+
             const createSession = await this.prismaService.oAuthToken.create({
                 data: {
                     provider: "email",
@@ -124,6 +131,7 @@ export class AuthService {
                     picture: "",
                     password: hashPassword,
                     verificationtoken: verificationToken,
+                    countlogin: 1,
                 }
             });
 
