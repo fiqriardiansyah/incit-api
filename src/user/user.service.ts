@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { User } from "@prisma/client";
 import { PrismaService } from "src/common/prisma.service";
-import { PasswordChange } from "src/model/user";
+import { PasswordChange, PasswordSet } from "src/model/user";
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -31,10 +31,6 @@ export class UserService {
             where: { id: user.id }
         });
 
-        if (!getUser) {
-            throw new HttpException("User not found", HttpStatus.NOT_FOUND);
-        }
-
         if (!getUser.password) {
             throw new HttpException("Password has not been set yet", HttpStatus.NOT_FOUND);
         }
@@ -50,7 +46,7 @@ export class UserService {
         }
 
         const hashPassword = await bcrypt.hash(data.newpassword, 10);
-        const updatePassword = await this.prismaService.user.update({
+        await this.prismaService.user.update({
             where: { id: user.id },
             data: {
                 password: hashPassword,
@@ -58,5 +54,21 @@ export class UserService {
         });
 
         return "Password Changed"
+    }
+
+    async passwordSet(user: User, data: PasswordSet) {
+        const hashPassword = await bcrypt.hash(data.password, 10);
+        await this.prismaService.user.update({
+            where: { id: user.id },
+            data: {
+                password: hashPassword,
+            }
+        });
+        return "Password Set";
+    }
+
+    async isPasswordSet(user: User) {
+        const getUser = await this.prismaService.user.findFirst({ where: { id: user.id } });
+        return Boolean(getUser.password);
     }
 }
